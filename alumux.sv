@@ -1,10 +1,10 @@
 module alumux # (
     parameter DATA_WIDTH = 32
 )(
-    input logic regOp2 [DATA_WIDTH-1:0],
-    input logic ImmOp [DATA_WIDTH-1:0],
+    input logic [DATA_WIDTH-1:0] regOp2 ,
+    input logic [DATA_WIDTH-1:0] ImmOp ,
     input logic ALUsrc,
-    output logic ALUop2 [DATA_WIDTH-1:0]
+    output logic [DATA_WIDTH-1:0] ALUop2 
 );
     
 always_comb begin
