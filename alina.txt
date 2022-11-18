@@ -1,1 +1,0 @@
-The Control Unit, the Sign-extension Unit and the instruction memory.
