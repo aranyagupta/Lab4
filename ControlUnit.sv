@@ -13,19 +13,19 @@ module ControlUnit #(
 
 
 always_comb 
-    if (instr[6:0]==1100011)
-        Immsrc = 0;
+    if (instr[6:0]==1100011) begin
+        ImmSrc = 0;
         ALUsrc = 0;
         ALUctrl = 0;
         PCsrc = (!EQ);
         RegWrite = 0;
-        
-    else 
-        Immsrc = 1;
+    end
+    else begin
+        ImmSrc = 1;
         ALUsrc = 1;
         ALUctrl = 1;
         PCsrc = 0;
         RegWrite = 1;
-
+    end
         
 endmodule

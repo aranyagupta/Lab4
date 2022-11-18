@@ -29,7 +29,7 @@ alu myALU(
   .ALUout(ALUout),
   .EQ(EQ),
   .ALUctrl(ALUctrl)
-)
+);
 
 regfile myRegisters(
   .AD1(instr[19:15]),
@@ -41,18 +41,18 @@ regfile myRegisters(
   .RD1(RD1),
   .RD2(RD2),
   .a0(a0)
-)
+);
 
 SignExtend mySignExtend(
   .instr(instr),
   .ImmSrc(ImmSrc),
   .ImmOp(ImmOp)
-)
+);
 
 InstrMem myInstrMem(
   .addr(ProgramCounter),
   .dout(InstrMemOut)
-)
+);
 
 ControlUnit myControlUnit(
   .instr(instr),
@@ -60,14 +60,15 @@ ControlUnit myControlUnit(
   .RegWrite(RegWrite),
   .ALUctrl(ALUctrl),
   .ImmSrc(ImmSrc),
-  .PCsrc(PCsrc)
-)
+  .PCsrc(PCsrc),
+  .ALUsrc(ALUsrc)
+);
 
 PC myPC(
     .clk(clk),
     .rst(rst),
-    .next_PC((PC_src) ? ProgramCounter+ImmOp : ProgramCounter + 4), // does work of PC MUX 
+    .next_PC((PCsrc) ? ProgramCounter+ImmOp : ProgramCounter + 4), // does work of PC MUX 
     .PC(ProgramCounter)
-)
+);
 
 endmodule
