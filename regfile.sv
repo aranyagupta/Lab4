@@ -23,7 +23,7 @@ end
 
 always_ff @(posedge clk) begin
     if (WE3) begin
-        register_array[AD3] = WD3;
+        register_array[AD3] <= WD3;
     end
 end
     
