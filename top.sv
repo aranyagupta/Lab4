@@ -1,22 +1,22 @@
 module top #(
-	parameter DATA_WIDTH = 32,
-  parameter ADDRESS_WIDTH = 9,
-  parameter CTRL_WIDTH = 1
+	parameter DATA_WIDTH = 32
+  //parameter ADDRESS_WIDTH = 9,
+  //parameter CTRL_WIDTH = 1
 )(
   // interface signals
-  input  logic             clk,      // clock 
-  input  logic             rst,      // reset
-  output  logic            a0        // output signal
+  input   logic                             clk,      // clock 
+  input   logic                             rst,      // reset
+  output  logic [DATA_WIDTH-1:0]            a0        // output signal
 );
 
 logic [DATA_WIDTH-1:0] RD1;
-logic [DATA_WIDTH-1:0] RD2;
+logic [DATA_WIDTH-1:0] regOp2;
 logic [DATA_WIDTH-1:0] ALUout; 
 logic                  EQ;
 logic [DATA_WIDTH-1:0] ProgramCounter;
 logic [DATA_WIDTH-1:0] instr;
 logic [DATA_WIDTH-1:0] ImmOp;
-logic [DATA_WIDTH-1:0] InstrMemOut;
+//logic [DATA_WIDTH-1:0] InstrMemOut;
 logic RegWrite;
 logic ALUctrl;
 logic ALUsrc;
@@ -25,7 +25,7 @@ logic PCsrc;
 
 alu myALU(
   .ALUop1(RD1),
-  .ALUop2((ALUsrc) ? ImmOp : RD2), // does work of ALU mux
+  .ALUop2((ALUsrc) ? ImmOp : regOp2), // does work of ALU mux
   .ALUout(ALUout),
   .EQ(EQ),
   .ALUctrl(ALUctrl)
@@ -39,7 +39,7 @@ regfile myRegisters(
   .WE3(RegWrite),
   .clk(clk),
   .RD1(RD1),
-  .RD2(RD2),
+  .RD2(regOp2),
   .a0(a0)
 );
 
@@ -51,7 +51,7 @@ SignExtend mySignExtend(
 
 InstrMem myInstrMem(
   .addr(ProgramCounter),
-  .dout(InstrMemOut)
+  .dout(instr)
 );
 
 ControlUnit myControlUnit(

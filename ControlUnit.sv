@@ -11,9 +11,12 @@ module ControlUnit #(
   output logic                          PCsrc
 );
 
-
+wire unused_ok = &{1'b0,
+           instr[WIDTH-1:7],
+           1'b0};
+           
 always_comb 
-    if (instr[6:0]==1100011) begin
+    if (instr[6:0]==7'b1100011) begin
         ImmSrc = 0;
         ALUsrc = 0;
         ALUctrl = 0;

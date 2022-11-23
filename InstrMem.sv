@@ -1,11 +1,12 @@
 module InstrMem #(
-    parameter  WIDTH = 32
+    parameter  WIDTH = 32,
+    parameter ADDRESS_WIDTH = 8
 )(
-    input  logic  [WIDTH-1:0]    addr,
-    output logic  [WIDTH-1:0]    dout
+    input  logic  [ADDRESS_WIDTH-1:0]    addr,
+    output logic  [WIDTH-1:0]            dout
 );
 
-logic [WIDTH-1:0]  rom_array [6:0];
+logic [WIDTH-1:0] rom_array [0:6];
 
 initial begin
     $display("Loading rom");
@@ -13,7 +14,17 @@ initial begin
 end;
 
 always_comb
-//output is asynchronous
-    dout <= rom_array [addr];
+    dout = rom_array [addr/4];
+
+integer i;
+initial begin
+
+     $display("data:");
+
+     for (i=0; i < 7; i=i+1)
+
+     $display("%d:%h",i,rom_array[i]);
+
+end
     
 endmodule
