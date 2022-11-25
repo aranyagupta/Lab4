@@ -17,11 +17,15 @@ logic [DATA_WIDTH-1:0] ProgramCounter;
 logic [DATA_WIDTH-1:0] instr;
 logic [DATA_WIDTH-1:0] ImmOp;
 //logic [DATA_WIDTH-1:0] InstrMemOut;
+logic [1:0] ImmSrc;
 logic RegWrite;
 logic ALUctrl;
 logic ALUsrc;
-logic ImmSrc;
 logic PCsrc;
+logic select;
+logic S0;
+logic S1;
+logic toWD3;
 
 alu myALU(
   .ALUop1(RD1),
@@ -35,12 +39,25 @@ regfile myRegisters(
   .AD1(instr[19:15]),
   .AD2(instr[24:20]),
   .AD3(instr[11:7]),
-  .WD3(ALUout),
+  .WD3(toWD3),
   .WE3(RegWrite),
   .clk(clk),
   .RD1(RD1),
   .RD2(regOp2),
   .a0(a0)
+);
+DataMemory myDataMemory(
+  .clk(clk),
+  .A(ALUout),
+  .WD(WD),
+  .WE(WE),
+  .RD(RD)
+);
+WD3mux myWD3mux(
+  .S0(ALUout),
+  .S1(RD),
+  .select(WD3select),
+  .toWD3(toWD3)
 );
 
 SignExtend mySignExtend(
@@ -62,6 +79,7 @@ ControlUnit myControlUnit(
   .ImmSrc(ImmSrc),
   .PCsrc(PCsrc),
   .ALUsrc(ALUsrc)
+  .WD3select(WD3select)
 );
 
 PC myPC(
