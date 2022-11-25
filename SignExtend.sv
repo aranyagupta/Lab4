@@ -3,7 +3,7 @@ module SignExtend #(
 )(
   // interface signals
   input  logic [WIDTH-1:0]              instr,      // instr 
-  input  logic                          ImmSrc,     // immediate source
+  input  logic [1:0]                    ImmSrc,     // immediate source
   output logic [WIDTH-1:0]              ImmOp 		// tick output
 );
 
@@ -13,13 +13,13 @@ wire unused_ok = &{1'b0,
            1'b0};
            
 always_comb 
-    if (ImmSrc) 
+    if (ImmSrc == 2'b01 || ImmSrc == 2'b10) // addi or lw
         if (instr[31])
             ImmOp = {20'hFFFFF, instr[31:20]};
         else ImmOp = {20'h00000, instr[31:20]};  
         
     else 
-	    if (instr[31]) 
+	    if (instr[31]) // bne and others
             ImmOp = {20'hFFFFF, instr[31], instr[7], instr[30:25], instr[11:8]};
         else ImmOp = {20'h00000, instr[31], instr[7], instr[30:25], instr[11:8]};  
         

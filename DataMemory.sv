@@ -9,29 +9,29 @@ module DataMemory #(
     output logic  [WIDTH-1:0]            RD
 );
 
-logic [WIDTH-1:0] rom_array [2**ADDRESS_WIDTH-1:0];
+logic [WIDTH-1:0] ram_array [2**ADDRESS_WIDTH-1:0];
 
 initial begin
     $display("Loading ram");
     $readmemh("sinerom.mem", ram_array);
 end;
 
-always_comb
-//output is synchronous
-    RD = rom_array [A];
+always_comb begin
+    RD = ram_array [A];
+end
 
 always_ff @(posedge clk) begin
-    if (WE) ram_array[A] <= WD
+    if (WE) ram_array[A] <= WD;
 end
 
 integer i;
 initial begin
 
-     $display("data:");
+     $display("ram data:");
 
      for (i=0; i < 7; i=i+1)
 
-     $display("%d:%h",i,rom_array[i]);
+     $display("%d:%h",i,ram_array[i]);
 
 end
     

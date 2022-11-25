@@ -3,7 +3,7 @@
 #include "Vtop.h"
 
 #include "vbuddy.cpp"     // include vbuddy code
-#define MAX_SIM_CYC 1000000
+#define MAX_SIM_CYC 300
 
 int main(int argc, char **argv, char **env) {
   int simcyc;     // simulation clock count
@@ -39,7 +39,9 @@ int main(int argc, char **argv, char **env) {
     top->rst = (simcyc < 2);
 
     // plot RAM input/output, send sample to DAC buffer, and print cycle count
-    vbdHex(1, top->a0 & 0xF);
+    // vbdHex(2, (int(top->a0)>>4) & 0xF);
+    // vbdHex(1, top->a0 & 0xF);
+    vbdPlot(top->a0, 0, 255);
     vbdBar(top->a0 & 0xFF);
     vbdCycle(simcyc);
 
